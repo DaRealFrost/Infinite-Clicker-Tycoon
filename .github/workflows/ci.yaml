@@ -1,0 +1,71 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Foreman
+        uses: Roblox/setup-foreman@v1
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Install Foreman Toolchains
+        run: foreman install
+        
+      - name: Install Dependencies
+        run: wally install
+        
+      - name: Prepare scripts for processing
+        env:
+          VERSION: "0.0.0" # Set to "0.0.0" for CI
+        run: |
+          darklua process src processed-src --config darklua.json
+        
+      - name: Generate Selene Standard Library
+        run: selene generate-roblox-std
+        
+      - name: Run Selene
+        run: selene processed-src
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Foreman
+        uses: Roblox/setup-foreman@v1
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Install Foreman Toolchains
+        run: foreman install
+      
+      - name: Install Dependencies
+        run: wally install
+      
+      - name: Prepare scripts for processing
+        env:
+          VERSION: "0.0.0" # Set to "0.0.0" for CI
+        run: |
+          darklua process src processed-src --config darklua.json
+      
+      - name: Run Stylua
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: processed-src --check --verify

@@ -1,0 +1,54 @@
+name: Continous Delivery
+
+on:
+  push:
+    tags:
+      - '*.*.*' # Semver = Semantic Versioning: https://semver.org/
+    
+jobs:
+  deliver:
+    name: Build and Deliver
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Foreman
+      uses: Roblox/setup-foreman@v1
+      with: 
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Install Foreman Toolchains
+      run: foreman install
+      
+    - name: Install Dependencies
+      run: wally install
+      
+    - name: Prepare scripts for proccessing
+      env:
+        VERSION: ${{ github.ref_name }}
+      run: |
+        darklua process src processed-src --config darklua.json
+        
+    - name: Build assets
+      run: |
+        rojo build -o unobfuscated-release.rbxm release.project.json
+        rojo build -o unobfuscated-release.rbxmx release.project.json
+    - name: Create new Release
+      id: create_release
+      uses: ncipollo/release-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: v${{ github.ref_name }}
+        artifacts: ./unobfuscated-release.rbx*
+        skipIfReleaseExists: true
+        generateReleaseNotes: true
+        draft: true
+        prerelease: false
+          
+      # @TODO
+      # Obfuscate all the files in src with luraph and build again to 
+      # And then send the updated files with version to some api -- NOT NEEDED FOR NOW

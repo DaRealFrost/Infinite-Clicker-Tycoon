@@ -1,0 +1,26 @@
+{
+    "name": "README - {{projectName}}",
+    "tree": {
+      "$path": "src", 
+      "$properties": {
+        "Enabled": false
+      },
+      
+      "packages":{
+        "$className": "Folder",
+        
+        "external": {
+          "$path": "Packages"
+        },
+        "internal": {
+          "$className": "Folder"
+        }
+      },
+      "models": {
+        "$className": "Folder"
+      },
+      "panels": {
+        "$className": "Folder"
+      }
+    }
+  } 
