@@ -1,7 +1,7 @@
 # Roblox CI-CD Test
 
-[![Continuous Integration](https://github.com/Sonoma-Lighting/roblox-product-template/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/Sonoma-Lighting/roblox-product-template/actions/workflows/ci.yaml)
-[![Continous Delivery](https://github.com/Sonoma-Lighting/roblox-product-template/actions/workflows/cd.yaml/badge.svg?branch=main)](https://github.com/Sonoma-Lighting/roblox-product-template/actions/workflows/cd.yaml)
+[![Continuous Integration](https://github.com/DaRealFrost/Infinite-Clicker-Tycoon/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/DaRealFrost/Infinite-Clicker-Tycoon/actions/workflows/ci.yaml)
+[![Continous Delivery](https://github.com/DaRealFrost/Infinite-Clicker-Tycoon/actions/workflows/cd.yaml/badge.svg?branch=main)](https://github.com/DaRealFrost/Infinite-Clicker-Tycoon/actions/workflows/cd.yaml)
 
 ## Prerequisites
 
